@@ -4,6 +4,9 @@ Collections/
 
 .idea
 
+# This will need to be changed if plugins need to be tracked, but eh
+Plugins/
+
 # Visual Studio 2015 user specific files
 .vs/
 
