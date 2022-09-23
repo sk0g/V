@@ -1,0 +1,5 @@
+[lfs]
+  url = "https://192.168.50.69:8080/"
+
+[http]
+  sslverify = false
