@@ -4,10 +4,20 @@
 #include "GameFramework/Character.h"
 #include "VCharacter.generated.h"
 
+class USpringArmComponent;
+class UCameraComponent;
+
 UCLASS()
 class V_API AVCharacter : public ACharacter
 {
 	GENERATED_BODY()
+
+protected: // Components
+	UPROPERTY(VisibleAnywhere)
+	UCameraComponent* CameraC;
+
+	UPROPERTY(VisibleAnywhere)
+	USpringArmComponent* SpringArmC;
 
 public:
 	// Sets default values for this character's properties
