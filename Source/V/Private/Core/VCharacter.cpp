@@ -1,6 +1,7 @@
 #include "Core/VCharacter.h"
 
 #include "Camera/CameraComponent.h"
+#include "GameFramework/PawnMovementComponent.h"
 #include "GameFramework/SpringArmComponent.h"
 
 // Sets default values
@@ -16,20 +17,31 @@ AVCharacter::AVCharacter()
 	CameraC->SetupAttachment(SpringArmC);
 }
 
-// Called when the game starts or when spawned
 void AVCharacter::BeginPlay()
 {
 	Super::BeginPlay();
 }
 
-// Called every frame
 void AVCharacter::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
+}
+
+void AVCharacter::MoveForward(float Value)
+{
+	AddMovementInput(GetActorForwardVector(), Value);
+}
+
+void AVCharacter::MoveRight(float Value)
+{
+	AddMovementInput(GetActorRightVector(), Value);
 }
 
 // Called to bind functionality to input
 void AVCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
+
+	PlayerInputComponent->BindAxis("MoveForward", this, &AVCharacter::MoveForward);
+	PlayerInputComponent->BindAxis("MoveRight", this, &AVCharacter::MoveRight);
 }

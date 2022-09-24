@@ -31,6 +31,11 @@ public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
-	// Called to bind functionality to input
+protected: // Movement
+	void MoveForward(float Value);
+
+	void MoveRight(float Value);
+
+public:
 	virtual void SetupPlayerInputComponent(UInputComponent* PlayerInputComponent) override;
 };

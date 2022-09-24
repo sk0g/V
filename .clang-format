@@ -3,7 +3,7 @@ AlignConsecutiveAssignments: true
 AlignOperands: AlignAfterOperator
 AllowShortBlocksOnASingleLine: Always
 AllowShortIfStatementsOnASingleLine: OnlyFirstIf
-AllowShortFunctionsOnASingleLine: All
+AllowShortFunctionsOnASingleLine: Inline
 AllowShortLambdasOnASingleLine: All
 EmptyLineBeforeAccessModifier: Always
 InsertBraces: true
