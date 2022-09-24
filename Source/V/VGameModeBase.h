@@ -4,7 +4,6 @@
 #include "GameFramework/GameModeBase.h"
 #include "VGameModeBase.generated.h"
 
-
 UCLASS()
 class V_API AVGameModeBase : public AGameModeBase
 {

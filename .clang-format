@@ -1,5 +1,18 @@
-﻿# Based on https://github.com/TensorWorks/UE-Clang-Format/
+﻿# Custom stuff
+AlignConsecutiveAssignments: true
+AlignOperands: AlignAfterOperator
+AllowShortBlocksOnASingleLine: Always
+AllowShortIfStatementsOnASingleLine: OnlyFirstIf
+AllowShortFunctionsOnASingleLine: All
+AllowShortLambdasOnASingleLine: All
+EmptyLineBeforeAccessModifier: Always
+InsertBraces: true
+MaxEmptyLinesToKeep: 1
+SortIncludes: true
+Standard: 'c++20'
 
+
+# Based on https://github.com/TensorWorks/UE-Clang-Format/
 StatementMacros: ['UPROPERTY', 'UFUNCTION', 'UCLASS', 'USTRUCT', 'UENUM', 'UINTERFACE', 'GENERATED_BODY']
 Language: Cpp
 BasedOnStyle: LLVM
@@ -7,12 +20,8 @@ BasedOnStyle: LLVM
 AccessModifierOffset: -4
 AlignAfterOpenBracket: DontAlign
 AlignEscapedNewlines: Left
-AlignOperands: DontAlign
 AlignTrailingComments: true
-AllowShortBlocksOnASingleLine: Empty
 AllowShortEnumsOnASingleLine: false
-AllowShortFunctionsOnASingleLine: Inline
-AllowShortLambdasOnASingleLine: All
 BraceWrapping:
   AfterCaseLabel: true
   AfterClass: true
@@ -38,14 +47,12 @@ BreakStringLiterals: false
 ColumnLimit: 0
 ConstructorInitializerAllOnOneLineOrOnePerLine: true
 Cpp11BracedListStyle: false
-EmptyLineBeforeAccessModifier: LogicalBlock
 IndentCaseBlocks: false
 IndentCaseLabels: true
 IndentPPDirectives: BeforeHash
 IndentWidth: 4
 NamespaceIndentation: All
 PointerAlignment: Left
-SortIncludes: false
 SpaceBeforeCaseColon: false
 TabWidth: 4
 UseTab: Always
