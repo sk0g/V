@@ -1,5 +1,4 @@
 [lfs]
-  url = "https://192.168.50.69:8080/"
-
-[http]
-  sslverify = false
+  url = "https://sk0g@dev.azure.com/sk0g/V/_git/V.git/info/lfs"
+  concurrent = true
+  concurrenttransfers = 64
