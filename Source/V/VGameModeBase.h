@@ -9,5 +9,4 @@ UCLASS()
 class V_API AVGameModeBase : public AGameModeBase
 {
 	GENERATED_BODY()
-	
 };
