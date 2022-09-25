@@ -6,6 +6,7 @@ AllowShortIfStatementsOnASingleLine: OnlyFirstIf
 AllowShortFunctionsOnASingleLine: Inline
 AllowShortLambdasOnASingleLine: All
 EmptyLineBeforeAccessModifier: Always
+IncludeBlocks: Regroup
 InsertBraces: true
 MaxEmptyLinesToKeep: 1
 SortIncludes: true
