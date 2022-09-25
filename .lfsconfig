@@ -1,4 +1,2 @@
 [lfs]
   url = "https://sk0g@dev.azure.com/sk0g/V/_git/V.git/info/lfs"
-  concurrent = true
-  concurrenttransfers = 64
