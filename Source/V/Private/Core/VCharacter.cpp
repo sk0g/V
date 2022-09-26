@@ -1,7 +1,7 @@
 #include "Core/VCharacter.h"
 
 #include "Camera/CameraComponent.h"
-#include "GameFramework/PawnMovementComponent.h"
+#include "Combat/VProjectile.h"
 #include "GameFramework/SpringArmComponent.h"
 
 // Sets default values
@@ -37,6 +37,17 @@ void AVCharacter::MoveRight(float Value)
 	AddMovementInput(GetActorRightVector(), Value);
 }
 
+void AVCharacter::AttackPrimary()
+{
+	FVector RightHandLocation = GetMesh()->GetSocketLocation("Muzzle_01");
+	auto SpawnTransform		  = FTransform(GetActorRotation(), RightHandLocation);
+
+	FActorSpawnParameters SpawnParameters;
+	SpawnParameters.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AdjustIfPossibleButAlwaysSpawn;
+
+	GetWorld()->SpawnActor<AActor>(PrimaryProjectile, SpawnTransform, SpawnParameters);
+}
+
 // Called to bind functionality to input
 void AVCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {
@@ -46,4 +57,6 @@ void AVCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponen
 	PlayerInputComponent->BindAxis("MoveRight", this, &AVCharacter::MoveRight);
 
 	PlayerInputComponent->BindAxis("Turn", this, &APawn::AddControllerYawInput);
+
+	PlayerInputComponent->BindAction("AttackPrimary", IE_Pressed, this, &AVCharacter::AttackPrimary);
 }

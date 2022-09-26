@@ -4,6 +4,7 @@
 #include "GameFramework/Character.h"
 #include "VCharacter.generated.h"
 
+class AVProjectile;
 class USpringArmComponent;
 class UCameraComponent;
 
@@ -31,10 +32,16 @@ public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
-protected: // Movement
+protected: // Input References
+	UPROPERTY(EditAnywhere, Category = Combat)
+	TSubclassOf<AVProjectile> PrimaryProjectile;
+
+protected: // Input
 	void MoveForward(float Value);
 
 	void MoveRight(float Value);
+
+	void AttackPrimary();
 
 public:
 	virtual void SetupPlayerInputComponent(UInputComponent* PlayerInputComponent) override;
