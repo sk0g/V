@@ -3,11 +3,11 @@
 #include "CoreMinimal.h"
 #include "UObject/Interface.h"
 
-#include "Interactable.generated.h"
+#include "VInteractable.generated.h"
 
 // This class does not need to be modified.
 UINTERFACE(MinimalAPI)
-class UInteractable : public UInterface
+class UVInteractable : public UInterface
 {
 	GENERATED_BODY()
 
@@ -17,7 +17,7 @@ class UInteractable : public UInterface
 /*
  * Interface for pawns and actors that can be interacted with
  */
-class V_API IInteractable
+class V_API IVInteractable
 {
 	GENERATED_BODY()
 
