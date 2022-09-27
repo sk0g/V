@@ -2,6 +2,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
+
 #include "VCharacter.generated.h"
 
 class AVProjectile;
