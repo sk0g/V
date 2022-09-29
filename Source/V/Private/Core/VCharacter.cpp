@@ -67,4 +67,6 @@ void AVCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponen
 	PlayerInputComponent->BindAction("Jump", IE_Released, this, &ACharacter::StopJumping);
 
 	PlayerInputComponent->BindAction("AttackPrimary", IE_Pressed, this, &AVCharacter::AttackPrimary);
+
+	PlayerInputComponent->BindAction("Interact", IE_Pressed, InteractionC, &UVInteractionComponent::Interact);
 }
