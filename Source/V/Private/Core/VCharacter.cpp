@@ -1,7 +1,9 @@
 #include "Core/VCharacter.h"
 
-#include "Camera/CameraComponent.h"
+#include "ActorComponents/VInteractionComponent.h"
 #include "Combat/VProjectile.h"
+
+#include "Camera/CameraComponent.h"
 #include "GameFramework/SpringArmComponent.h"
 
 // Sets default values
@@ -15,6 +17,8 @@ AVCharacter::AVCharacter()
 
 	SpringArmC->SetupAttachment(RootComponent);
 	CameraC->SetupAttachment(SpringArmC);
+
+	InteractionC = CreateDefaultSubobject<UVInteractionComponent>("InteractionComponent");
 }
 
 void AVCharacter::BeginPlay()

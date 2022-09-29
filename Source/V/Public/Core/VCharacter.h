@@ -5,6 +5,7 @@
 
 #include "VCharacter.generated.h"
 
+class UVInteractionComponent;
 class AVProjectile;
 class USpringArmComponent;
 class UCameraComponent;
@@ -20,6 +21,9 @@ protected: // Components
 
 	UPROPERTY(VisibleAnywhere)
 	USpringArmComponent* SpringArmC;
+
+	UPROPERTY(VisibleAnywhere)
+	UVInteractionComponent* InteractionC;
 
 public:
 	// Sets default values for this character's properties

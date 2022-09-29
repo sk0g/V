@@ -23,5 +23,5 @@ class V_API IVInteractable
 
 public:
 	UFUNCTION(BlueprintNativeEvent)
-	void Interact(APawn* Instigator);
+	void Interact(AActor* Instigator);
 };
