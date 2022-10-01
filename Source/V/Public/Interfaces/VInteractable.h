@@ -14,14 +14,11 @@ class UVInteractable : public UInterface
 	void A();
 };
 
-/*
- * Interface for pawns and actors that can be interacted with
- */
 class V_API IVInteractable
 {
 	GENERATED_BODY()
 
 public:
-	UFUNCTION(BlueprintNativeEvent)
+	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
 	void Interact(AActor* Instigator);
 };

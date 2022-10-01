@@ -14,14 +14,11 @@ public:
 	void Interact();
 
 public:
-	// Sets default values for this component's properties
 	UVInteractionComponent();
 
 protected:
-	// Called when the game starts
 	virtual void BeginPlay() override;
 
 public:
-	// Called every frame
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 };

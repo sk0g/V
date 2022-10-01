@@ -14,7 +14,6 @@ class V_API AVProjectile : public AActor
 	GENERATED_BODY()
 
 public:
-	// Sets default values for this actor's properties
 	AVProjectile();
 
 public: // Projectile properties
@@ -35,10 +34,8 @@ protected: // Components
 	UParticleSystemComponent* ParticleC;
 
 protected:
-	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
 public:
-	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 };

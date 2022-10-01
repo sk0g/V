@@ -4,10 +4,8 @@
 #include "GameFramework/ProjectileMovementComponent.h"
 #include "Particles/ParticleSystemComponent.h"
 
-// Sets default values
 AVProjectile::AVProjectile()
 {
-	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
 	SphereC = CreateDefaultSubobject<USphereComponent>("SphereComponent");
@@ -28,13 +26,11 @@ AVProjectile::AVProjectile()
 	}
 }
 
-// Called when the game starts or when spawned
 void AVProjectile::BeginPlay()
 {
 	Super::BeginPlay();
 }
 
-// Called every frame
 void AVProjectile::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
