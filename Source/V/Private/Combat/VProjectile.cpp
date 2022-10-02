@@ -13,8 +13,12 @@ AVProjectile::AVProjectile()
 
 	RootComponent = SphereC;
 
-	ParticleC = CreateDefaultSubobject<UParticleSystemComponent>("ParticleSystemComponent");
-	ParticleC->SetupAttachment(SphereC);
+	ProjectileParticleC = CreateDefaultSubobject<UParticleSystemComponent>("ProjectileParticle");
+	ProjectileParticleC->SetupAttachment(SphereC);
+
+	HitParticleC = CreateDefaultSubobject<UParticleSystemComponent>("HitParticle");
+	HitParticleC->SetAutoActivate(false);
+	HitParticleC->SetupAttachment(SphereC);
 
 	MovementC								= CreateDefaultSubobject<UProjectileMovementComponent>("ProjectileMovementComponent");
 	MovementC->InitialSpeed					= ForwardMovementSpeed;

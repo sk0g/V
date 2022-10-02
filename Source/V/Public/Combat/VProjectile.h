@@ -5,6 +5,7 @@
 
 #include "VProjectile.generated.h"
 
+class UNiagaraSystem;
 class UProjectileMovementComponent;
 class USphereComponent;
 
@@ -33,8 +34,11 @@ protected: // Components
 	UPROPERTY(VisibleAnywhere)
 	UProjectileMovementComponent* MovementC;
 
-	UPROPERTY(VisibleAnywhere)
-	UParticleSystemComponent* ParticleC;
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
+	UParticleSystemComponent* ProjectileParticleC;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
+	UParticleSystemComponent* HitParticleC;
 
 public: // Helpers
 	void AddActorToIgnore(AActor* Actor);
