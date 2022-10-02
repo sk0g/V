@@ -16,6 +16,9 @@ class V_API AVProjectile : public AActor
 public:
 	AVProjectile();
 
+protected:
+	virtual void BeginPlay() override;
+
 public: // Projectile properties
 	UPROPERTY(EditDefaultsOnly, meta = (UIMin = 200, UIMax = 2000))
 	float ForwardMovementSpeed = 800.f;
@@ -33,9 +36,6 @@ protected: // Components
 	UPROPERTY(VisibleAnywhere)
 	UParticleSystemComponent* ParticleC;
 
-protected:
-	virtual void BeginPlay() override;
-
-public:
-	virtual void Tick(float DeltaTime) override;
+public: // Helpers
+	void AddActorToIgnore(AActor* Actor);
 };

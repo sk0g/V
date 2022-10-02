@@ -46,10 +46,9 @@ void AVCharacter::AttackPrimary()
 	FVector RightHandLocation = GetMesh()->GetSocketLocation("Muzzle_01");
 	auto SpawnTransform		  = FTransform(GetActorRotation(), RightHandLocation);
 
-	FActorSpawnParameters SpawnParameters;
-	SpawnParameters.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AdjustIfPossibleButAlwaysSpawn;
-
-	GetWorld()->SpawnActor<AActor>(PrimaryProjectile, SpawnTransform, SpawnParameters);
+	auto Projectile = GetWorld()->SpawnActorDeferred<AVProjectile>(PrimaryProjectile, SpawnTransform);
+	Projectile->AddActorToIgnore(this);
+	Projectile->FinishSpawning(SpawnTransform);
 }
 
 void AVCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)

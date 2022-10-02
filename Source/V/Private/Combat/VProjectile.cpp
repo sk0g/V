@@ -31,7 +31,7 @@ void AVProjectile::BeginPlay()
 	Super::BeginPlay();
 }
 
-void AVProjectile::Tick(float DeltaTime)
+void AVProjectile::AddActorToIgnore(AActor* Actor)
 {
-	Super::Tick(DeltaTime);
+	SphereC->IgnoreActorWhenMoving(Actor, true);
 }
