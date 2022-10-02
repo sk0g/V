@@ -31,12 +31,14 @@ void AVCharacter::Tick(float DeltaTime)
 
 void AVCharacter::MoveForward(float Value)
 {
-	AddMovementInput(GetActorForwardVector(), Value);
+	auto ForwardVector = GetControlRotation().Vector();
+	AddMovementInput(ForwardVector, Value);
 }
 
 void AVCharacter::MoveRight(float Value)
 {
-	AddMovementInput(GetActorRightVector(), Value);
+	auto RightVector = GetControlRotation().RotateVector(FVector::RightVector);
+	AddMovementInput(RightVector, Value);
 }
 
 void AVCharacter::AttackPrimary()
