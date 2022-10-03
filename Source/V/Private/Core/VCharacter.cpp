@@ -5,6 +5,7 @@
 
 #include "Camera/CameraComponent.h"
 #include "GameFramework/SpringArmComponent.h"
+#include "VData.h"
 
 AVCharacter::AVCharacter()
 {
@@ -41,14 +42,17 @@ void AVCharacter::MoveRight(float Value)
 	AddMovementInput(RightVector, Value);
 }
 
-void AVCharacter::AttackPrimary()
+void AVCharacter::Attack(EAbilitySlot Slot)
 {
-	FVector RightHandLocation = GetMesh()->GetSocketLocation("Muzzle_01");
-	auto SpawnTransform		  = FTransform(GetActorRotation(), RightHandLocation);
+	ensureAlways(Projectiles.Contains(Slot));
+	auto ProjectileToFire = Projectiles.Find(Slot);
 
-	auto Projectile = GetWorld()->SpawnActorDeferred<AVProjectile>(PrimaryProjectile, SpawnTransform);
-	Projectile->AddActorToIgnore(this);
-	Projectile->FinishSpawning(SpawnTransform);
+	FVector RightHandLocation = GetMesh()->GetSocketLocation("Muzzle_01");
+	auto SpawnTransform		  = FTransform(GetControlRotation(), RightHandLocation);
+
+	auto ProjectileSpawned = GetWorld()->SpawnActorDeferred<AVProjectile>(ProjectileToFire->Get(), SpawnTransform);
+	ProjectileSpawned->AddActorToIgnore(this);
+	ProjectileSpawned->FinishSpawning(SpawnTransform);
 }
 
 void AVCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
@@ -64,7 +68,12 @@ void AVCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponen
 	PlayerInputComponent->BindAction("Jump", IE_Pressed, this, &ACharacter::Jump);
 	PlayerInputComponent->BindAction("Jump", IE_Released, this, &ACharacter::StopJumping);
 
-	PlayerInputComponent->BindAction("AttackPrimary", IE_Pressed, this, &AVCharacter::AttackPrimary);
-
 	PlayerInputComponent->BindAction("Interact", IE_Pressed, InteractionC, &UVInteractionComponent::Interact);
+
+	PlayerInputComponent->BindAction<FAttackDelegate>(
+		"AttackPrimary", IE_Pressed, this, &AVCharacter::Attack, EAbilitySlot::Primary);
+	PlayerInputComponent->BindAction<FAttackDelegate>(
+		"AttackSecondary", IE_Pressed, this, &AVCharacter::Attack, EAbilitySlot::Secondary);
+	PlayerInputComponent->BindAction<FAttackDelegate>(
+		"AttackTertiary", IE_Pressed, this, &AVCharacter::Attack, EAbilitySlot::Tertiary);
 }

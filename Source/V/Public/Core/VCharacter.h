@@ -5,6 +5,7 @@
 
 #include "VCharacter.generated.h"
 
+enum class EAbilitySlot : uint8;
 class UVInteractionComponent;
 class AVProjectile;
 class USpringArmComponent;
@@ -36,14 +37,15 @@ public:
 
 protected: // Input References
 	UPROPERTY(EditAnywhere, Category = Combat)
-	TSubclassOf<AVProjectile> PrimaryProjectile;
+	TMap<EAbilitySlot, TSubclassOf<AVProjectile>> Projectiles;
 
 protected: // Input
 	void MoveForward(float Value);
 
 	void MoveRight(float Value);
 
-	void AttackPrimary();
+	void Attack(EAbilitySlot Slot);
+	DECLARE_DELEGATE_OneParam(FAttackDelegate, EAbilitySlot); // Allows templated input binding
 
 public:
 	virtual void SetupPlayerInputComponent(UInputComponent* PlayerInputComponent) override;
