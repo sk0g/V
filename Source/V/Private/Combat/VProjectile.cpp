@@ -20,14 +20,11 @@ AVProjectile::AVProjectile()
 	HitParticleC->SetAutoActivate(false);
 	HitParticleC->SetupAttachment(SphereC);
 
-	MovementC								= CreateDefaultSubobject<UProjectileMovementComponent>("ProjectileMovementComponent");
-	MovementC->InitialSpeed					= ForwardMovementSpeed;
+	MovementC				= CreateDefaultSubobject<UProjectileMovementComponent>("ProjectileMovementComponent");
+	MovementC->InitialSpeed = ForwardMovementSpeed;
 	MovementC->bRotationFollowsVelocity		= true;
 	MovementC->bInitialVelocityInLocalSpace = true;
-	if (not bAffectedByGravity)
-	{
-		MovementC->ProjectileGravityScale = 0.f;
-	}
+	if (not bAffectedByGravity) { MovementC->ProjectileGravityScale = 0.f; }
 }
 
 void AVProjectile::BeginPlay()

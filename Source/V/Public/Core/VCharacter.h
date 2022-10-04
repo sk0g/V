@@ -16,6 +16,16 @@ class V_API AVCharacter : public ACharacter
 {
 	GENERATED_BODY()
 
+protected:
+	virtual void BeginPlay() override;
+
+public:
+	AVCharacter();
+
+	virtual void Tick(float DeltaTime) override;
+
+	virtual void SetupPlayerInputComponent(UInputComponent* PlayerInputComponent) override;
+
 protected: // Components
 	UPROPERTY(VisibleAnywhere)
 	UCameraComponent* CameraC;
@@ -25,15 +35,6 @@ protected: // Components
 
 	UPROPERTY(VisibleAnywhere)
 	UVInteractionComponent* InteractionC;
-
-public:
-	AVCharacter();
-
-protected:
-	virtual void BeginPlay() override;
-
-public:
-	virtual void Tick(float DeltaTime) override;
 
 protected: // Input References
 	UPROPERTY(EditAnywhere, Category = Combat)
@@ -47,6 +48,11 @@ protected: // Input
 	void Attack(EAbilitySlot Slot);
 	DECLARE_DELEGATE_OneParam(FAttackDelegate, EAbilitySlot); // Allows templated input binding
 
-public:
-	virtual void SetupPlayerInputComponent(UInputComponent* PlayerInputComponent) override;
+protected: // Helpers
+	/**
+	 * @brief Get launch rotation for a projectile, to aim at the camera's center point
+	 * @param LaunchLocation
+	 * @return Rotation to launch projectile in, or ZeroRotator if crosshair isn't over a target
+	 */
+	FRotator GetCompensatedProjectileLaunchRotation(FVector LaunchLocation) const;
 };

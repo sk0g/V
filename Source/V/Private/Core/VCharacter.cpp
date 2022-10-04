@@ -20,39 +20,14 @@ AVCharacter::AVCharacter()
 	InteractionC = CreateDefaultSubobject<UVInteractionComponent>("InteractionComponent");
 }
 
-void AVCharacter::BeginPlay()
-{
-	Super::BeginPlay();
-}
-
 void AVCharacter::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 }
 
-void AVCharacter::MoveForward(float Value)
+void AVCharacter::BeginPlay()
 {
-	auto ForwardVector = GetControlRotation().Vector();
-	AddMovementInput(ForwardVector, Value);
-}
-
-void AVCharacter::MoveRight(float Value)
-{
-	auto RightVector = GetControlRotation().RotateVector(FVector::RightVector);
-	AddMovementInput(RightVector, Value);
-}
-
-void AVCharacter::Attack(EAbilitySlot Slot)
-{
-	ensureAlways(Projectiles.Contains(Slot));
-	auto ProjectileToFire = Projectiles.Find(Slot);
-
-	FVector RightHandLocation = GetMesh()->GetSocketLocation("Muzzle_01");
-	auto SpawnTransform		  = FTransform(GetControlRotation(), RightHandLocation);
-
-	auto ProjectileSpawned = GetWorld()->SpawnActorDeferred<AVProjectile>(ProjectileToFire->Get(), SpawnTransform);
-	ProjectileSpawned->AddActorToIgnore(this);
-	ProjectileSpawned->FinishSpawning(SpawnTransform);
+	Super::BeginPlay();
 }
 
 void AVCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
@@ -76,4 +51,47 @@ void AVCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponen
 		"AttackSecondary", IE_Pressed, this, &AVCharacter::Attack, EAbilitySlot::Secondary);
 	PlayerInputComponent->BindAction<FAttackDelegate>(
 		"AttackTertiary", IE_Pressed, this, &AVCharacter::Attack, EAbilitySlot::Tertiary);
+}
+
+void AVCharacter::MoveForward(float Value)
+{
+	auto ForwardVector = GetControlRotation().Vector();
+	AddMovementInput(ForwardVector, Value);
+}
+
+void AVCharacter::MoveRight(float Value)
+{
+	auto RightVector = GetControlRotation().RotateVector(FVector::RightVector);
+	AddMovementInput(RightVector, Value);
+}
+
+void AVCharacter::Attack(EAbilitySlot Slot)
+{
+	ensureAlways(Projectiles.Contains(Slot));
+
+	FVector RightHandLocation = GetMesh()->GetSocketLocation("Muzzle_01");
+	auto SpawnTransform		  = FTransform(GetControlRotation(), RightHandLocation);
+
+	auto ProjectileRotation = GetCompensatedProjectileLaunchRotation(SpawnTransform.GetLocation());
+	if (ProjectileRotation != FRotator::ZeroRotator) { SpawnTransform.SetRotation(ProjectileRotation.Quaternion()); }
+
+	auto ProjectileSpawned =
+		GetWorld()->SpawnActorDeferred<AVProjectile>(Projectiles.Find(Slot)->Get(), SpawnTransform);
+	ProjectileSpawned->AddActorToIgnore(this);
+	ProjectileSpawned->FinishSpawning(SpawnTransform);
+}
+
+FRotator AVCharacter::GetCompensatedProjectileLaunchRotation(FVector LaunchLocation) const
+{
+	FHitResult Hit;
+	FVector TraceStart = CameraC->GetComponentLocation();
+	FVector TraceEnd   = TraceStart + (CameraC->GetComponentRotation().Vector() * 200000.f);
+
+	GetWorld()->LineTraceSingleByChannel(Hit, TraceStart, TraceEnd, ECC_Visibility);
+
+	if (Hit.Distance == 0) { return FRotator::ZeroRotator; }
+
+	auto HitLocation	= Hit.Location;
+	auto LookAtRotation = (HitLocation - LaunchLocation).Rotation();
+	return LookAtRotation;
 }

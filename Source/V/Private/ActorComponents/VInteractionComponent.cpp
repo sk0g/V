@@ -37,7 +37,8 @@ void UVInteractionComponent::BeginPlay()
 	Super::BeginPlay();
 }
 
-void UVInteractionComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
+void UVInteractionComponent::TickComponent(
+	float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
 }
