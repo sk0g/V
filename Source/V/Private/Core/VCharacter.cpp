@@ -75,10 +75,11 @@ void AVCharacter::Attack(EAbilitySlot Slot)
 	auto ProjectileRotation = GetCompensatedProjectileLaunchRotation(SpawnTransform.GetLocation());
 	if (ProjectileRotation != FRotator::ZeroRotator) { SpawnTransform.SetRotation(ProjectileRotation.Quaternion()); }
 
-	auto ProjectileSpawned =
-		GetWorld()->SpawnActorDeferred<AVProjectile>(Projectiles.Find(Slot)->Get(), SpawnTransform);
-	ProjectileSpawned->AddActorToIgnore(this);
-	ProjectileSpawned->FinishSpawning(SpawnTransform);
+	FActorSpawnParameters SpawnParams;
+	SpawnParams.Instigator					   = this;
+	SpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AdjustIfPossibleButAlwaysSpawn;
+
+	GetWorld()->SpawnActor<AVProjectile>(Projectiles.Find(Slot)->Get(), SpawnTransform, SpawnParams);
 }
 
 FRotator AVCharacter::GetCompensatedProjectileLaunchRotation(FVector LaunchLocation) const
@@ -91,7 +92,5 @@ FRotator AVCharacter::GetCompensatedProjectileLaunchRotation(FVector LaunchLocat
 
 	if (Hit.Distance == 0) { return FRotator::ZeroRotator; }
 
-	auto HitLocation	= Hit.Location;
-	auto LookAtRotation = (HitLocation - LaunchLocation).Rotation();
-	return LookAtRotation;
+	return (Hit.Location - LaunchLocation).Rotation();
 }

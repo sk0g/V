@@ -9,7 +9,6 @@ AVProjectile::AVProjectile()
 	PrimaryActorTick.bCanEverTick = true;
 
 	SphereC = CreateDefaultSubobject<USphereComponent>("SphereComponent");
-	SphereC->SetCollisionProfileName("Projectile");
 
 	RootComponent = SphereC;
 
@@ -32,7 +31,7 @@ void AVProjectile::BeginPlay()
 	Super::BeginPlay();
 }
 
-void AVProjectile::AddActorToIgnore(AActor* Actor)
+void AVProjectile::EnableCollision()
 {
-	SphereC->IgnoreActorWhenMoving(Actor, true);
+	SphereC->SetCollisionProfileName("Projectile");
 }

@@ -40,6 +40,9 @@ protected: // Components
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
 	UParticleSystemComponent* HitParticleC;
 
-public: // Helpers
-	void AddActorToIgnore(AActor* Actor);
+protected: // Helpers
+	// TODO (UE5.1's coroutines): schedule execution of this within CPP
+	//   This is called from BP for now, which is horrible.
+	UFUNCTION(BlueprintCallable)
+	void EnableCollision();
 };
