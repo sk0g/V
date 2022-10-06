@@ -5,10 +5,11 @@ AllowShortBlocksOnASingleLine: Always
 AllowShortIfStatementsOnASingleLine: OnlyFirstIf
 AllowShortFunctionsOnASingleLine: Inline
 AllowShortLambdasOnASingleLine: All
-ColumnLimit: 119
+ColumnLimit: 120
 EmptyLineBeforeAccessModifier: Always
 IncludeBlocks: Regroup
 InsertBraces: true
+KeepEmptyLinesAtTheStartOfBlocks: false
 MaxEmptyLinesToKeep: 1
 SortIncludes: true
 Standard: 'c++20'
