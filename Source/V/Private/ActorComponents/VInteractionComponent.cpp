@@ -2,6 +2,22 @@
 
 #include "Interfaces/VInteractable.h"
 
+UVInteractionComponent::UVInteractionComponent()
+{
+	PrimaryComponentTick.bCanEverTick = false;
+}
+
+void UVInteractionComponent::BeginPlay()
+{
+	Super::BeginPlay();
+}
+
+void UVInteractionComponent::TickComponent(
+	float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
+{
+	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
+}
+
 void UVInteractionComponent::Interact()
 {
 	FVector TraceStart;
@@ -25,20 +41,4 @@ void UVInteractionComponent::Interact()
 		IVInteractable::Execute_Interact(HitResult.GetActor(), GetOwner());
 		return;
 	}
-}
-
-UVInteractionComponent::UVInteractionComponent()
-{
-	PrimaryComponentTick.bCanEverTick = false;
-}
-
-void UVInteractionComponent::BeginPlay()
-{
-	Super::BeginPlay();
-}
-
-void UVInteractionComponent::TickComponent(
-	float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
-{
-	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
 }
