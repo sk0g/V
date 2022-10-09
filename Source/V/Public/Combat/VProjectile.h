@@ -23,11 +23,11 @@ public:
 protected:
 	virtual void BeginPlay() override;
 
-protected: // Components
-	UPROPERTY(VisibleAnywhere)
+protected: // Components & references
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
 	USphereComponent* SphereC;
 
-	UPROPERTY(VisibleAnywhere)
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
 	UProjectileMovementComponent* MovementC;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
@@ -36,25 +36,45 @@ protected: // Components
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
 	UParticleSystemComponent* HitParticleC;
 
-protected: // Projectile properties/ references
-	UPROPERTY(EditDefaultsOnly, meta = (UIMin = 200, UIMax = 2000))
-	float ForwardMovementSpeed = 800.f;
-
-	UPROPERTY(EditDefaultsOnly)
-	bool bAffectedByGravity = false;
-
-	UPROPERTY(EditDefaultsOnly)
-	bool bCanCollide = true;
-
-public:
-	UPROPERTY(VisibleAnywhere)
+	/* The actor that fired this projectile */
+	UPROPERTY(VisibleAnywhere, Category = "Projectile|References")
 	AActor* FiredBy;
 
-protected: // Helpers
-	UFUNCTION(BlueprintCallable)
+protected: // Movement
+	/* The forward movement speed of the projectile, in cm/s */
+	UPROPERTY(EditDefaultsOnly, meta = (UIMin = 200, UIMax = 2000), Category = "Projectile|Movement")
+	float ForwardMovementSpeed = 800.f;
+
+	/* If true, affected by gravitational forces */
+	UPROPERTY(EditDefaultsOnly, Category = "Projectile|Movement")
+	bool bAffectedByGravity = false;
+
+	/* If true, this projectile will collide according to the "Projectile" profile */
+	UPROPERTY(EditDefaultsOnly, Category = "Projectile")
+	bool bCanCollide = true;
+
+	/* Conditionally enable collision (depending on bCanCollide,
+	 * after enough time has passed to allow the projectile to travel outside the player's hitbox */
+	UFUNCTION(BlueprintCallable, Category = "Projectile")
 	FAsyncCoroutine EnableCollision();
 
+	void SetupMovementComponent();
+
+protected: // Lifetime
+	/* Lifetime for projectile to spawn with, after which Destroy() is called
+	 * If left at 0.f, will not expire */
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Projectile")
+	float Lifetime = 0.f;
+
+	/* After lifetime passes, self-destruct (if not already destroyed) */
+	UFUNCTION(Category = "Projectile|Lifetime")
+	FAsyncCoroutine ScheduleExpiry();
+
 public:
-	UFUNCTION(BlueprintCallable)
+	UFUNCTION(BlueprintCallable, Category = "Projectile")
 	void SetInstigator(AActor* Actor);
+
+	/* Play hit/death particles, and destroy self */
+	UFUNCTION(BlueprintImplementableEvent, BlueprintCallable, Category = "Projectile|Lifetime")
+	void SelfDestruct();
 };

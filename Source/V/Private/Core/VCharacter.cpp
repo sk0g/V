@@ -79,7 +79,9 @@ void AVCharacter::Attack(EAbilitySlot Slot)
 	SpawnParams.Instigator					   = this;
 	SpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AdjustIfPossibleButAlwaysSpawn;
 
-	GetWorld()->SpawnActor<AVProjectile>(Projectiles.Find(Slot)->Get(), SpawnTransform, SpawnParams);
+	auto SpawnedActor =
+		GetWorld()->SpawnActor<AVProjectile>(Projectiles.Find(Slot)->Get(), SpawnTransform, SpawnParams);
+	SpawnedActor->SetInstigator(this);
 }
 
 FRotator AVCharacter::GetCompensatedProjectileLaunchRotation(FVector LaunchLocation) const
