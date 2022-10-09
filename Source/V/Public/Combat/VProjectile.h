@@ -2,12 +2,15 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
+#include "UE5Coro.h"
 
 #include "VProjectile.generated.h"
 
 class UNiagaraSystem;
 class UProjectileMovementComponent;
 class USphereComponent;
+
+using namespace UE5Coro;
 
 UCLASS()
 class V_API AVProjectile : public AActor
@@ -19,13 +22,6 @@ public:
 
 protected:
 	virtual void BeginPlay() override;
-
-public: // Projectile properties
-	UPROPERTY(EditDefaultsOnly, meta = (UIMin = 200, UIMax = 2000))
-	float ForwardMovementSpeed = 800.f;
-
-	UPROPERTY(EditDefaultsOnly)
-	bool bAffectedByGravity = false;
 
 protected: // Components
 	UPROPERTY(VisibleAnywhere)
@@ -40,9 +36,25 @@ protected: // Components
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
 	UParticleSystemComponent* HitParticleC;
 
+protected: // Projectile properties/ references
+	UPROPERTY(EditDefaultsOnly, meta = (UIMin = 200, UIMax = 2000))
+	float ForwardMovementSpeed = 800.f;
+
+	UPROPERTY(EditDefaultsOnly)
+	bool bAffectedByGravity = false;
+
+	UPROPERTY(EditDefaultsOnly)
+	bool bCanCollide = true;
+
+public:
+	UPROPERTY(VisibleAnywhere)
+	AActor* FiredBy;
+
 protected: // Helpers
-	// TODO (UE5.1's coroutines): schedule execution of this within CPP
-	//   This is called from BP for now, which is horrible.
 	UFUNCTION(BlueprintCallable)
-	void EnableCollision();
+	FAsyncCoroutine EnableCollision();
+
+public:
+	UFUNCTION(BlueprintCallable)
+	void SetInstigator(AActor* Actor);
 };

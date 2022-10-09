@@ -29,9 +29,24 @@ AVProjectile::AVProjectile()
 void AVProjectile::BeginPlay()
 {
 	Super::BeginPlay();
+
+	EnableCollision();
 }
 
-void AVProjectile::EnableCollision()
+FAsyncCoroutine AVProjectile::EnableCollision()
 {
+	if (not bCanCollide) { co_return; }
+
+	// rough body radius margin / movement speed should work - unless you are moving forward while you're shooting...
+	auto WaitFor = 200.f / ForwardMovementSpeed;
+	co_await Latent::Seconds(WaitFor);
+
 	SphereC->SetCollisionProfileName("Projectile");
+}
+
+void AVProjectile::SetInstigator(AActor* Actor)
+{
+	FiredBy = Actor;
+
+	if (bCanCollide) { SphereC->IgnoreActorWhenMoving(Actor, true); }
 }
