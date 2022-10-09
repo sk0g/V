@@ -8,7 +8,10 @@ public class V : ModuleRules
 
 		PCHUsage = PCHUsageMode.UseExplicitOrSharedPCHs;
 
-		PublicDependencyModuleNames.AddRange(new string[] {"Core", "CoreUObject", "Engine", "InputCore", "Niagara", "UE5Coro"});
+		PublicDependencyModuleNames.AddRange(new string[]
+		{
+			"Core", "CoreUObject", "Engine", "InputCore", "Niagara", "UE5Coro"
+		});
 
 		PrivateDependencyModuleNames.AddRange(new string[] { });
 
