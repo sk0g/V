@@ -53,6 +53,16 @@ void AVCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponen
 		"AttackTertiary", IE_Pressed, this, &AVCharacter::Attack, EAbilitySlot::Tertiary);
 }
 
+void AVCharacter::CleanSpawnedProjectiles()
+{
+	for (auto Projectile : SpawnedProjectiles)
+	{
+		if (IsValid(Projectile)) { continue; }
+
+		SpawnedProjectiles.Remove(Projectile);
+	}
+}
+
 void AVCharacter::MoveForward(float Value)
 {
 	auto ForwardVector = GetControlRotation().Vector();
@@ -67,8 +77,24 @@ void AVCharacter::MoveRight(float Value)
 
 void AVCharacter::Attack(EAbilitySlot Slot)
 {
-	ensureAlways(Projectiles.Contains(Slot));
+	ensureAlways(Projectiles.Contains(Slot) and IsValid(Projectiles.Find(Slot)->Get()));
+	CleanSpawnedProjectiles();
 
+	// If projectile to be spawned supports early termination, check if there is one to be terminated first
+	auto ProjectileToSpawn = Projectiles.Find(Slot);
+	if (ProjectileToSpawn->GetDefaultObject()->bSupportsEarlyTermination)
+	{
+		for (auto Projectile : SpawnedProjectiles)
+		{
+			if (not Projectile->bSupportsEarlyTermination) { continue; }
+			if (Projectile->GetClass()->GetDefaultObject() != ProjectileToSpawn->GetDefaultObject()) { continue; }
+
+			Projectile->SelfDestruct();
+			return;
+		}
+	}
+
+	// Otherwise, continue to actually spawning the actor
 	FVector RightHandLocation = GetMesh()->GetSocketLocation("Muzzle_01");
 	auto SpawnTransform		  = FTransform(GetControlRotation(), RightHandLocation);
 
@@ -82,6 +108,8 @@ void AVCharacter::Attack(EAbilitySlot Slot)
 	auto SpawnedActor =
 		GetWorld()->SpawnActor<AVProjectile>(Projectiles.Find(Slot)->Get(), SpawnTransform, SpawnParams);
 	SpawnedActor->SetInstigator(this);
+
+	SpawnedProjectiles.Add(SpawnedActor);
 }
 
 FRotator AVCharacter::GetCompensatedProjectileLaunchRotation(FVector LaunchLocation) const

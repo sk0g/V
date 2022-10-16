@@ -6,6 +6,7 @@
 
 #include "VProjectile.generated.h"
 
+class AVCharacter;
 class UNiagaraSystem;
 class UProjectileMovementComponent;
 class USphereComponent;
@@ -16,6 +17,8 @@ UCLASS()
 class V_API AVProjectile : public AActor
 {
 	GENERATED_BODY()
+
+	friend AVCharacter;
 
 public:
 	AVProjectile();
@@ -37,7 +40,7 @@ protected: // Components & references
 	UParticleSystemComponent* HitParticleC;
 
 	/* The actor that fired this projectile */
-	UPROPERTY(VisibleAnywhere, Category = "Projectile|References")
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Projectile|References")
 	AActor* FiredBy;
 
 protected: // Movement
@@ -50,12 +53,12 @@ protected: // Movement
 	bool bAffectedByGravity = false;
 
 	/* If true, this projectile will collide according to the "Projectile" profile */
-	UPROPERTY(EditDefaultsOnly, Category = "Projectile")
+	UPROPERTY(EditDefaultsOnly, Category = "Projectile|Movement")
 	bool bCanCollide = true;
 
 	/* Conditionally enable collision (depending on bCanCollide,
 	 * after enough time has passed to allow the projectile to travel outside the player's hitbox */
-	UFUNCTION(BlueprintCallable, Category = "Projectile")
+	UFUNCTION(BlueprintCallable, Category = "Projectile|Movement")
 	FAsyncCoroutine EnableCollision();
 
 	void SetupMovementComponent();
@@ -63,8 +66,12 @@ protected: // Movement
 protected: // Lifetime
 	/* Lifetime for projectile to spawn with, after which Destroy() is called
 	 * If left at 0.f, will not expire */
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Projectile")
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Projectile|Lifetime")
 	float Lifetime = 0.f;
+
+	/* If true, characters can trigger an early termination (and any on-termination actions) */
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Projectile|Lifetime")
+	bool bSupportsEarlyTermination = false;
 
 	/* After lifetime passes, self-destruct (if not already destroyed) */
 	UFUNCTION(Category = "Projectile|Lifetime")

@@ -40,6 +40,12 @@ protected: // Input References
 	UPROPERTY(EditAnywhere, Category = Combat)
 	TMap<EAbilitySlot, TSubclassOf<AVProjectile>> Projectiles;
 
+	UPROPERTY(BlueprintReadOnly, Category = Combat)
+	TSet<AVProjectile*> SpawnedProjectiles;
+
+	/* Traverse list of spawned projectiles, and remove any that are null/destroyed */
+	void CleanSpawnedProjectiles();
+
 protected: // Input
 	void MoveForward(float Value);
 
