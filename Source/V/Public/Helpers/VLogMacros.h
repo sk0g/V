@@ -1,5 +1,7 @@
 ﻿#pragma once
 
+#include "../V.h"
+
 #define LOG(Message) UE_LOG(LogVGame, Log, TEXT(Message))
 #define FLOG(Message, ...) UE_LOG(LogVGame, Log, TEXT(Message), __VA_ARGS__)
 

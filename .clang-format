@@ -19,7 +19,7 @@ IncludeCategories:
   - Regex: '\.generated\.h'
     Priority: 1000
     SortPriority: 1000
-  - Regex: '^"(Core|Combat|ActorComponents|Interfaces).*\/V'
+  - Regex: '^"(ActorComponents|Combat|Core|Helpers|Interfaces|Subsystems).*\/V'
     Priority: 1
     SortPriority: 1
   - Regex:           '.*'
