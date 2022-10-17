@@ -65,14 +65,21 @@ void AVCharacter::CleanSpawnedProjectiles()
 
 void AVCharacter::MoveForward(float Value)
 {
-	auto ForwardVector = GetControlRotation().Vector();
-	AddMovementInput(ForwardVector, Value);
+	// Discarding Z and re-normalising prevents movement speed slowing with higher absolute pitch values 
+	auto ControlVector = GetControlRotation().Vector();
+	ControlVector.Z	   = 0;
+	ControlVector.Normalize();
+
+	AddMovementInput(ControlVector, Value);
 }
 
 void AVCharacter::MoveRight(float Value)
 {
-	auto RightVector = GetControlRotation().RotateVector(FVector::RightVector);
-	AddMovementInput(RightVector, Value);
+	auto ControlVector = GetControlRotation().RotateVector(FVector::RightVector);
+	ControlVector.Z	   = 0;
+	ControlVector.Normalize();
+
+	AddMovementInput(ControlVector, Value);
 }
 
 void AVCharacter::Attack(EAbilitySlot Slot)
