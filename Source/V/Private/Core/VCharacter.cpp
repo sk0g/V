@@ -75,6 +75,7 @@ void AVCharacter::MoveForward(float Value)
 
 void AVCharacter::MoveRight(float Value)
 {
+	// Discarding Z and re-normalising prevents movement speed slowing with higher absolute pitch values 
 	auto ControlVector = GetControlRotation().RotateVector(FVector::RightVector);
 	ControlVector.Z	   = 0;
 	ControlVector.Normalize();
