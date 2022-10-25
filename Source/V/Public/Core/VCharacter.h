@@ -5,6 +5,7 @@
 
 #include "VCharacter.generated.h"
 
+class UVAttributeComponent;
 enum class EAbilitySlot : uint8;
 class UVInteractionComponent;
 class AVProjectile;
@@ -35,6 +36,9 @@ protected: // Components
 
 	UPROPERTY(VisibleAnywhere)
 	UVInteractionComponent* InteractionC;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	UVAttributeComponent* AttributeC;
 
 protected: // Input References
 	UPROPERTY(EditAnywhere, Category = Combat)

@@ -1,5 +1,6 @@
 #include "Core/VCharacter.h"
 
+#include "ActorComponents/VAttributeComponent.h"
 #include "ActorComponents/VInteractionComponent.h"
 #include "Combat/VProjectile.h"
 
@@ -18,6 +19,8 @@ AVCharacter::AVCharacter()
 	CameraC->SetupAttachment(SpringArmC);
 
 	InteractionC = CreateDefaultSubobject<UVInteractionComponent>("InteractionComponent");
+
+	AttributeC = CreateDefaultSubobject<UVAttributeComponent>("AttributeComponent");
 }
 
 void AVCharacter::Tick(float DeltaTime)
@@ -65,7 +68,7 @@ void AVCharacter::CleanSpawnedProjectiles()
 
 void AVCharacter::MoveForward(float Value)
 {
-	// Discarding Z and re-normalising prevents movement speed slowing with higher absolute pitch values 
+	// Discarding Z and re-normalising prevents movement speed slowing with higher absolute pitch values
 	auto ControlVector = GetControlRotation().Vector();
 	ControlVector.Z	   = 0;
 	ControlVector.Normalize();
@@ -75,7 +78,7 @@ void AVCharacter::MoveForward(float Value)
 
 void AVCharacter::MoveRight(float Value)
 {
-	// Discarding Z and re-normalising prevents movement speed slowing with higher absolute pitch values 
+	// Discarding Z and re-normalising prevents movement speed slowing with higher absolute pitch values
 	auto ControlVector = GetControlRotation().RotateVector(FVector::RightVector);
 	ControlVector.Z	   = 0;
 	ControlVector.Normalize();
