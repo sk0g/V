@@ -14,12 +14,12 @@ UVAttributeComponent::UVAttributeComponent()
 {
 	PrimaryComponentTick.bCanEverTick = false;
 
-	Health			= CreateDefaultSubobject<UVAttribute>("HealthAttribute");
-	Health->Changed = HealthChanged; // This doesn't work for now
-	
+	Health = CreateDefaultSubobject<UVAttribute>("HealthAttribute");
 }
 
 void UVAttributeComponent::BeginPlay()
 {
 	Super::BeginPlay();
+
+	Health->Changed = HealthChanged;
 }
